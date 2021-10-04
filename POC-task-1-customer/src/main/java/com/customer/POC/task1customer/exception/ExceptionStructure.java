@@ -1,6 +1,8 @@
 package com.customer.POC.task1customer.exception;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -12,9 +14,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Component
 public class ExceptionStructure {
-	private Date timestamp;
-	private String message;
-	private String details;
+
+    private Date timestamp;
+    private String message;
+    private List<String> errors;
+    
+    public ExceptionStructure(Date timestamp, String message, String error) {
+        super();
+        this.timestamp = timestamp;
+        this.message = message;
+        errors = Arrays.asList(error);
+    }
 }
 	
 	
