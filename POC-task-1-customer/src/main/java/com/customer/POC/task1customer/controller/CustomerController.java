@@ -23,22 +23,22 @@ public class CustomerController {
 	@Autowired
 	private CustomerRepository repo;
 	
-	@GetMapping(path="/customers",produces= {"application/json"})
+	@GetMapping(path="/customers")   //,produces= {"application/json"}
 	public List<Customer> getCustomers() {
 		return repo.findAll();
 	}
 	
-	@GetMapping(path="/customers/{id}", produces= {"application/json"})
+	@GetMapping(path="/customers/{id}")  
 	public Optional<Customer> getCustomerbyId(@Valid @PathVariable int id) {
 		return repo.findById(id);	
 	}
 	
-	@PostMapping(path="/customers", consumes= {"application/json"})
+	@PostMapping(path="/customers")
 	public void setCustomer(@Valid @RequestBody Customer customer) {
 		repo.save(customer);
 	}
 	
-	@PutMapping(path="/customers", consumes= {"application/json"})
+	@PutMapping(path="/customers")
 	public void updateCustomer(@Valid @RequestBody Customer customer) {
 		repo.save(customer);
 	}

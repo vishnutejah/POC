@@ -2,11 +2,18 @@ package com.customer.POC.task1customer.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -20,22 +27,30 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Data  //combination of @Getter @Setter @equals @hashcode @toString etc
+@Table(name="customer", schema = "vishnu")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
+	@Column(name="customerID")
 	@Id
-	@Min(5)
-	@NotNull
-	private Integer cust_Id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CUST_SEQ")
+	@SequenceGenerator(name="CUST_SEQ",sequenceName = "CUST_SEQ_GEN", initialValue = 12345,allocationSize =1)
+	private Long customer_id;
 	
+	@Column(name="emailId")
+	@Email
+	private String customer_email_id;
+	
+	@Column(name="customerName")
 	@Size(min=8, message="{error.custName.invalid}")
 	@NotNull
-	private String cust_Name;
+	private String customer_name;
 	
+	@Column(name="mobileNumber",nullable=true)
 	@Pattern(regexp="(^$|[0-9]{10})", message="{error.phoneNumber.invalid}")
-	@Column(nullable=true)
-	private String phone_No;
+	private String customer_mobile_no;
+	
 }
 
 
