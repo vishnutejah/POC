@@ -1,26 +1,24 @@
 package com.customer.POC.task1customer.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,22 +31,28 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property = "item_id")
 public class Items {
+	
+	/*
+	 * @GenericGenerator(name = "item_sequence", strategy
+	 * ="com.customer.POC.task1customer.model.ItemIdGenerator")
+	 * 
+	 * @GeneratedValue(generator = "item_sequence")
+	 */
 	@Id
 	@Column(name="ItemID")
-	@GenericGenerator(name = "item_sequence", strategy ="com.customer.POC.task1customer.model.ItemIdGenerator")
-	@GeneratedValue(generator = "item_sequence")
-	private String item_id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long item_id;
 	
 	@NotNull
 	@Column(name="ItemName")
-	private String name;
+	private String item_name;
 	
 	@Column(name="ItemCategory")
 	private String item_category;
 	
 	
-	  @ManyToMany(mappedBy = "customerItems", fetch= FetchType.LAZY)
-	  @JsonIgnore
-	  private Set<Customer> customers=new HashSet<Customer>();	  		 
+	@ManyToMany(mappedBy = "customerItems", targetEntity = Customer.class, cascade = CascadeType.ALL)
+	private List<Customer> customers;	  		 
 }
