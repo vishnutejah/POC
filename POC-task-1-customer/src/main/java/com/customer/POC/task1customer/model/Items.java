@@ -34,16 +34,14 @@ import lombok.ToString;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property = "item_id")
 public class Items {
 	
-	/*
-	 * @GenericGenerator(name = "item_sequence", strategy
-	 * ="com.customer.POC.task1customer.model.ItemIdGenerator")
-	 * 
-	 * @GeneratedValue(generator = "item_sequence")
-	 */
+	
+	  
+	 
 	@Id
 	@Column(name="ItemID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long item_id;
+	@GenericGenerator(name = "item_sequence", strategy="com.customer.POC.task1customer.model.ItemIdGenerator")
+	@GeneratedValue(generator = "item_sequence")
+	private String item_id;
 	
 	@NotNull
 	@Column(name="ItemName")

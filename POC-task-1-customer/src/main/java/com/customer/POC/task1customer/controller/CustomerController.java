@@ -41,13 +41,13 @@ public class CustomerController {
 	    }
 	    
 	    @GetMapping("/customer/details/{id}")
-	    public CustomerDao getCustomer(@Valid @PathVariable Long id) {
+	    public CustomerDao getCustomer(@Valid @PathVariable String id) {
 	        if(customerRepository.findById(id).isPresent())
 	            return customerService.getCustomer(id);
 	        else return  null;
 	    }
 	    @GetMapping("/customer/itemlist/details/{id}")
-	    public List<ItemDao> getCustomerItems(@Valid @PathVariable Long id) {
+	    public List<ItemDao> getCustomerItems(@Valid @PathVariable String id) {
 	        if(customerRepository.findById(id).isPresent())
 	            return customerService.getItemsList(customerRepository.getById(id));
 	        else return  null;
@@ -57,11 +57,11 @@ public class CustomerController {
 	        return customerService.getCustomers();
 	    }
 	    @PutMapping("/customer/update/{id}")
-	    public ResponseEntity<Object> updateCustomer(@Valid @PathVariable Long id,@Valid @RequestBody Customer customer) {
+	    public ResponseEntity<Object> updateCustomer(@Valid @PathVariable String id,@Valid @RequestBody Customer customer) {
 	        return customerService.updateCustomer(customer, id);
 	    }
 	    @DeleteMapping("customer/delete/{id}")
-	    public ResponseEntity<Object> deleteCustomer(@Valid @PathVariable Long id) {
+	    public ResponseEntity<Object> deleteCustomer(@Valid @PathVariable String id) {
 	        return customerService.deleteCustomer(id);
 	    }
 

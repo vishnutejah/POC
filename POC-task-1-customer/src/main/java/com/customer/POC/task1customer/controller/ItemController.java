@@ -39,11 +39,11 @@ public class ItemController {
         itemRepository.save(item);
     }
     @DeleteMapping("/item/delete/{id}")
-    public ResponseEntity<Object> deleteItem(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteItem(@PathVariable String id) {
         return itemService.deleteItem(id);
     }
     @GetMapping("/item/details/{id}")
-    public ItemDao getItem(@Valid @PathVariable Long id) {
+    public ItemDao getItem(@Valid @PathVariable String id) {
         if(itemRepository.findById(id).isPresent())
             return itemService.getItem(id);
         else return null;
@@ -53,11 +53,11 @@ public class ItemController {
         return itemService.getItems();
     }
     @GetMapping("/item/customerlist/details/{id}")
-    public List<CustomerDao> getCustomerList(@Valid @PathVariable Long id) {
+    public List<CustomerDao> getCustomerList(@Valid @PathVariable String id) {
         return itemService.getCustomersList(itemRepository.getById(id));
     }
     @PutMapping("/item/update/{id}")
-    public ResponseEntity<Object> updateItem(@Valid @PathVariable Long id, @Valid @RequestBody Items item) {
+    public ResponseEntity<Object> updateItem(@Valid @PathVariable String id, @Valid @RequestBody Items item) {
         return itemService.updateItem(id, item);
     }
 

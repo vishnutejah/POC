@@ -24,7 +24,7 @@ public class CustomerService {
         this.itemRepository = itemRepository;
     }
     
-    public CustomerDao getCustomer(Long id) {
+    public CustomerDao getCustomer(String id) {
     	if(customerRepository.findById(id).isPresent()) {
     		Customer customer =customerRepository.findById(id).get();
     		CustomerDao customerDao= new CustomerDao();
@@ -53,7 +53,7 @@ public class CustomerService {
     	else return new ArrayList<CustomerDao>();
     }
     @Transactional
-    public ResponseEntity<Object> updateCustomer(Customer customer, Long customer_id) {
+    public ResponseEntity<Object> updateCustomer(Customer customer, String customer_id) {
         if(customerRepository.findById(customer_id).isPresent()) {
             Customer newCustomer = customerRepository.findById(customer_id).get();
             newCustomer.setCustomer_id(customer.getCustomer_id());
@@ -68,7 +68,7 @@ public class CustomerService {
         } else return ResponseEntity.unprocessableEntity().body("Cannot find the Customer specified");
     }
    
-    public ResponseEntity<Object> deleteCustomer(Long id) {
+    public ResponseEntity<Object> deleteCustomer(String id) {
         if (customerRepository.findById(id).isPresent()) {
         	customerRepository.deleteById(id);
             if (customerRepository.findById(id).isPresent())
