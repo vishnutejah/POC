@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.customer.POC.task1customer.model.Items;
 
 @Repository
-public interface ItemRepository extends JpaRepository<Items,String> {
-
+public interface ItemRepository extends JpaRepository<Items,Long> {
 
 }

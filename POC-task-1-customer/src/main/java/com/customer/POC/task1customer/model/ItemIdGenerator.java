@@ -11,7 +11,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 
 public class ItemIdGenerator implements IdentifierGenerator {
-    private final String DEFAULT_SEQUENCE_NAME = "item_id__sequence";
+    private final String DEFAULT_SEQUENCE_NAME = "item_id_sequence";
 
     /*
     * This method will generate custom id based on String followed by id
@@ -29,9 +29,7 @@ public class ItemIdGenerator implements IdentifierGenerator {
             connection = session.connection();
             statement = connection.createStatement();
             try {
-                /*
-                * MySql does not support sequence, instead there is AUTO INCREMENT
-                */
+               
                 statement.executeUpdate("UPDATE " + DEFAULT_SEQUENCE_NAME + " SET next_val=LAST_INSERT_ID(next_val+1)");
                 resultSet = statement.executeQuery("SELECT next_val FROM  " + DEFAULT_SEQUENCE_NAME);
             } catch (Exception e) {
@@ -40,7 +38,6 @@ public class ItemIdGenerator implements IdentifierGenerator {
                 // if sequence is not found then creating the sequence
                 statement.execute("CREATE table " + DEFAULT_SEQUENCE_NAME + " (next_val INT NOT NULL)");
                 statement.executeUpdate("INSERT INTO " + DEFAULT_SEQUENCE_NAME + " VALUES(0)");
-                //==> LAST_INSERT_ID(next_val+1)  -> this is inbuilt function of MySql so by using this we can achieve our custom sequence like auto increment
                 statement.executeUpdate("UPDATE " + DEFAULT_SEQUENCE_NAME + " SET next_val=LAST_INSERT_ID(next_val+1)");
                 resultSet = statement.executeQuery("SELECT next_val FROM  " + DEFAULT_SEQUENCE_NAME);
                 //e.printStackTrace();
