@@ -18,6 +18,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -38,8 +40,9 @@ import lombok.ToString;
 public class Customer {
 	@Column(name="CustomerID")
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long customer_id;
+	@GenericGenerator(name = "customer_sequence", strategy="com.customer.POC.task1customer.model.CustomerIdGenerator")
+	@GeneratedValue(generator = "customer_sequence")
+	private String customer_id;
 	
 	@Column(name="EmailId")
 	@Email

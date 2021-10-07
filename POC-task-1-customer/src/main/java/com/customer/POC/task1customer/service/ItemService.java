@@ -16,13 +16,16 @@ import com.customer.POC.task1customer.repository.ItemRepository;
 
 @Service
 public class ItemService {
-
+	
+	private CustomerService customerService;
 	private CustomerRepository customerRepository;
 	private ItemRepository itemRepository;
 
-	public ItemService(CustomerRepository customerRepository, ItemRepository itemRepository) {
+	public ItemService(CustomerRepository customerRepository, ItemRepository itemRepository,CustomerService customerService ) {
 		this.customerRepository = customerRepository;
 		this.itemRepository = itemRepository;
+		this.customerService= customerService;
+		
 	}
 
 	@Transactional
@@ -47,7 +50,7 @@ public class ItemService {
 		return ResponseEntity.ok("Successfully created Item");
 	}
 	
-	  public ItemDao getItem(Long id) {
+	  public ItemDao getItem(String id) {
 	    	if(itemRepository.findById(id).isPresent()) {
 	    		Items item =itemRepository.findById(id).get();
 	    		ItemDao itemDao= new ItemDao();
@@ -73,7 +76,7 @@ public class ItemService {
 	    	else return new ArrayList<ItemDao>();
 	    }
 	
-	public ResponseEntity<Object> deleteItem(Long id) {
+	public ResponseEntity<Object> deleteItem(String id) {
 		if (itemRepository.findById(id).isPresent()) {
 			itemRepository.deleteById(id);
 			if (itemRepository.findById(id).isPresent()) {
@@ -84,7 +87,7 @@ public class ItemService {
 			return ResponseEntity.unprocessableEntity().body("No Records Found");
 	}
 
-	public ResponseEntity<Object> updateItem(Long id, Items item) {
+	public ResponseEntity<Object> updateItem(String id, Items item) {
 		if (itemRepository.findById(id).isPresent()) {
 			Items newItem = itemRepository.findById(id).get();
 			newItem.setItem_id(item.getItem_id());
@@ -107,6 +110,7 @@ public class ItemService {
 	    		customerDao.setEmailId(item.getCustomers().get(i).getCustomer_email_id());
 	    		customerDao.setMobileNo(item.getCustomers().get(i).getCustomer_mobile_number());
 	    		customerDao.setName(item.getCustomers().get(i).getCustomer_name());
+	    		customerDao.setItems(customerService.getItemsList(item.getCustomers().get(i)));
 	    		customersList.add(customerDao);
 	    	}
 	    	return customersList;
