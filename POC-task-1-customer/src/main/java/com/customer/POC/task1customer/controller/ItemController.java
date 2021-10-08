@@ -1,6 +1,7 @@
 package com.customer.POC.task1customer.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -55,6 +56,17 @@ public class ItemController {
     @GetMapping("/item/customerlist/details/{id}")
     public List<CustomerDao> getCustomerList(@Valid @PathVariable String id) {
         return itemService.getCustomersList(itemRepository.getById(id));
+    }
+    
+    @GetMapping("/item/customernamelist/details/{id}")
+    public List<String> getItemCustNames(@Valid @PathVariable String id) {
+        if(itemRepository.findById(id).isPresent()) {
+            List<CustomerDao> itemsList= itemService.getCustomersList(itemRepository.getById(id));
+            //Java 8: Using streams with method reference
+            List<String> customerNames=itemsList.stream().map(CustomerDao::getName).collect(Collectors.toList());
+            return customerNames;
+        }
+        else return  null;
     }
     @PutMapping("/item/update/{id}")
     public ResponseEntity<Object> updateItem(@Valid @PathVariable String id, @Valid @RequestBody Items item) {

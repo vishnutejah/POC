@@ -43,7 +43,7 @@ public class CustomerIdGenerator implements IdentifierGenerator {
 	                int nextValue = resultSet.getInt(1);
 	                String suffix = String.format("%01d", nextValue);
 	                result = prefix.concat(suffix);
-	                System.out.println("Custom generated sequence is : " + result);
+	                System.out.println("Custom generated for Customer sequence is : " + result);
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
