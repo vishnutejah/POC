@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CustomerDao {
+	private String id;
 	private String name;
 	private String emailId;
 	private String mobileNo;
