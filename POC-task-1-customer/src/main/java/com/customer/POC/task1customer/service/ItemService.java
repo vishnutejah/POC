@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.customer.POC.task1customer.model.Customer;
 import com.customer.POC.task1customer.model.CustomerDao;
@@ -27,8 +26,7 @@ public class ItemService {
 		this.customerService= customerService;
 		
 	}
-
-	@Transactional
+	
 	public ResponseEntity<Object> addItem(Items item) {
 
 		Items newItem = new Items();
@@ -54,6 +52,7 @@ public class ItemService {
 	    	if(itemRepository.findById(id).isPresent()) {
 	    		Items item =itemRepository.findById(id).get();
 	    		ItemDao itemDao= new ItemDao();
+	    		itemDao.setId(item.getItem_id());
 	    		itemDao.setCategory(item.getItem_category());
 	    		itemDao.setName(item.getItem_name());
 	    		return itemDao;
@@ -67,6 +66,7 @@ public class ItemService {
 	    		List<ItemDao> itemDao=new ArrayList<ItemDao>();
 	    		for(Items item:itemList) {
 	    			ItemDao dao=new ItemDao();
+	    			dao.setId(item.getItem_id());
 	    			dao.setCategory(item.getItem_category());
 	    			dao.setName(item.getItem_name());
 	    			itemDao.add(dao);
@@ -107,6 +107,7 @@ public class ItemService {
 	    	List<CustomerDao> customersList = new ArrayList<CustomerDao>();
 	    	for(int i=0;i<item.getCustomers().size();i++) {
 	    		CustomerDao customerDao = new CustomerDao();
+	    		customerDao.setId(item.getCustomers().get(i).getCustomer_id());
 	    		customerDao.setEmailId(item.getCustomers().get(i).getCustomer_email_id());
 	    		customerDao.setMobileNo(item.getCustomers().get(i).getCustomer_mobile_number());
 	    		customerDao.setName(item.getCustomers().get(i).getCustomer_name());

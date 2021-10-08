@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.customer.POC.task1customer.model.Customer;
 import com.customer.POC.task1customer.model.CustomerDao;
 import com.customer.POC.task1customer.model.ItemDao;
+import com.customer.POC.task1customer.model.Items;
 import com.customer.POC.task1customer.repository.CustomerRepository;
 import com.customer.POC.task1customer.repository.ItemRepository;
 
@@ -28,6 +28,7 @@ public class CustomerService {
     	if(customerRepository.findById(id).isPresent()) {
     		Customer customer =customerRepository.findById(id).get();
     		CustomerDao customerDao= new CustomerDao();
+    		customerDao.setId(customer.getCustomer_id());
     		customerDao.setEmailId(customer.getCustomer_email_id());
     		customerDao.setName(customer.getCustomer_name());
     		customerDao.setMobileNo(customer.getCustomer_mobile_number());
@@ -36,12 +37,14 @@ public class CustomerService {
     	}
     	else return null;
     }
+    
     public List<CustomerDao> getCustomers(){
     	List<Customer> customerList = customerRepository.findAll();
     	if(customerList.size()>0) {
     		List<CustomerDao> customerDao=new ArrayList<CustomerDao>();
     		for(Customer customer:customerList) {
     			CustomerDao dao=new CustomerDao();
+    			dao.setId(customer.getCustomer_id());
     			dao.setEmailId(customer.getCustomer_email_id());
     			dao.setName(customer.getCustomer_name());
     			dao.setMobileNo(customer.getCustomer_mobile_number());
@@ -52,7 +55,7 @@ public class CustomerService {
     	}
     	else return new ArrayList<CustomerDao>();
     }
-    @Transactional
+    
     public ResponseEntity<Object> updateCustomer(Customer customer, String customer_id) {
         if(customerRepository.findById(customer_id).isPresent()) {
             Customer newCustomer = customerRepository.findById(customer_id).get();
@@ -81,6 +84,7 @@ public class CustomerService {
     	List<ItemDao> itemsList = new ArrayList<ItemDao>();
     	for(int i=0;i<customer.getCustomerItems().size();i++) {
     		ItemDao itemDao = new ItemDao();
+    		itemDao.setId(customer.getCustomerItems().get(i).getItem_id());
     		itemDao.setName(customer.getCustomerItems().get(i).getItem_name());
     		itemDao.setCategory(customer.getCustomerItems().get(i).getItem_category());
     		itemsList.add(itemDao);

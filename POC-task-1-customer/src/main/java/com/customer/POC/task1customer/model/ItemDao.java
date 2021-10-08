@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class ItemDao {
 	
+	private String id;
 	private String name;
 	private String category;
 }
