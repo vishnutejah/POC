@@ -1,5 +1,6 @@
 package com.customer.POC.task1customer.exception;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +35,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 	        errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
 	    }
 	    
-	    ExceptionStructure apiError = new ExceptionStructure(new Date(), "Validation failed", errors);
+	    ExceptionStructure apiError = new ExceptionStructure(ZonedDateTime.now(), "Validation failed", errors);
 	    return new ResponseEntity(apiError, HttpStatus.BAD_REQUEST);
 	}
 	 
@@ -42,7 +43,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	   @ExceptionHandler({Exception.class})
 	   public final ResponseEntity<ExceptionStructure>handleAllExceptions(Exception ex,
-	  WebRequest request){ExceptionStructure exception=new ExceptionStructure(new Date(),ex.getMessage(),request.getDescription(false));
+	  WebRequest request){
+		   List<String> errors = new ArrayList<String>();
+		   errors.add(request.getDescription(false));
+		   ExceptionStructure exception=new ExceptionStructure(ZonedDateTime.now(),ex.getMessage(),errors);
 	  return new ResponseEntity(exception,HttpStatus.BAD_REQUEST); //just to show our customized Exception response
 	  }
 	 	 
